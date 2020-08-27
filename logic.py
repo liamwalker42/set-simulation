@@ -76,15 +76,16 @@ def replace_set(set):
 
 
 #Currently works for 3 types per feature
-def find_sets():
+def find_sets(b = []):
+    if (len(b) == 0): b = board
     sets = []
 
-    for i in range(len(board)):
+    for i in range(len(b)):
         for j in range(i):
             for k in range(j):
-                c1 = board[i]
-                c2 = board[j]
-                c3 = board[k]
+                c1 = b[i]
+                c2 = b[j]
+                c3 = b[k]
                 s = [(c1[f] + c2[f] + c3[f]) % types
                      for f in range(features)]
                 if (sum(s) == 0): sets += [[i, j, k]]
