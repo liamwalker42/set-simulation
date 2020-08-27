@@ -110,10 +110,10 @@ def find_ultra():
                     if (sum(s12) == 0): sets += [[i, j, k, l]]
                     s13 = [(c1[f] + c3[f] - c2[f] - c4[f]) % types
                            for f in range(features)]
-                    if (sum(s12) == 0): sets += [[i, j, k, l]]
+                    if (sum(s13) == 0): sets += [[i, j, k, l]]
                     s14 = [(c1[f] + c4[f] - c2[f] - c3[f]) % types
                            for f in range(features)]
-                    if (sum(s12) == 0): sets += [[i, j, k, l]]
+                    if (sum(s14) == 0): sets += [[i, j, k, l]]
 
     return sets
 
