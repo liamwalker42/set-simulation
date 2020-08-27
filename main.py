@@ -12,7 +12,7 @@ if __name__ == "__main__":
     for i in range(iter):
         if (i % 100 == 0): print("Starting game", i)
 
-        [num_sets] = play_game(random)
+        [num_sets] = play_game(leave_most)
         #print(num_sets)
 
         #game_sets[num_sets-18] += 1
