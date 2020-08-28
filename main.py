@@ -1,7 +1,8 @@
 from logic import play_game
-from strategy import random, leave_most, random_ultra
+from strategy import random, leave_most, leave_least, late_leave_most, \
+                     random_ultra
 
-if __name__ == "__main__":
+if False and __name__ == "__main__":
 
     iter = int(input("Number of games: "))
     print("Starting games")
@@ -12,7 +13,7 @@ if __name__ == "__main__":
     for i in range(iter):
         if (i % 100 == 0): print("Starting game", i)
 
-        [num_sets] = play_game(leave_most)
+        [num_sets] = play_game(late_leave_most)
         #print(num_sets)
 
         #game_sets[num_sets-18] += 1
@@ -20,3 +21,20 @@ if __name__ == "__main__":
 
     print("Finished", iter, "games")
     print(game_sets)
+
+
+
+if __name__ == "__main__":
+    i = 0
+    while True:
+        i += 1
+        if i % 100 == 0: print("Starting game", i)
+
+        [num_sets, sets, board] = play_game(random)
+        if num_sets <= 21:
+            print("Sets:")
+            for set in sets:
+                print(set)
+            print("\nBoard:")
+            print(board)
+            break

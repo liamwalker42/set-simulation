@@ -3,16 +3,17 @@ from random import shuffle
 deck = []
 board = []
 features = 4
-types = 3
+values = 3
 
 
 def play_game(strategy, f = 4, t = 3):
-    global features, types
+    global features, values
     features = f
-    types = t
+    values = t
     init_deck()
 
     sets_taken = 0
+    sets = []
     while True:
         set = strategy()
         '''
@@ -20,41 +21,50 @@ def play_game(strategy, f = 4, t = 3):
         print("board:", board)
         print("set:", set)
         '''
-        if (set == -1): break
+
+        if (set == -1):
+            if(deal_cards(values) == -1):
+                break
+            continue
+
+
         sets_taken += 1
-        if (len(board) - len(set) < features * types):
+        sets += [[ board[set[0]], board[set[1]], board[set[2]] ]]
+        if (len(board) - len(set) < features * values):
             replace_set(set)
         else:
             take_set(set)
 
     #add info as necesary
     #[number of sets taken]
-    return [sets_taken]
-    #return [int(types**(features - 1) - len(board)/types)]
+    return [sets_taken, sets, board]
+    #return [int(values**(features - 1) - len(board)/values)]
 
 
 
-#TODO: make cleaner using modular arithmetic with range(types**features)
+#TODO: make cleaner using modular arithmetic with range(values**features)
 def init_deck():
     global deck, board
-    deck = [[i] for i in range(types)]
+    deck = [[i] for i in range(values)]
     board = []
 
     for i in range(features - 1):
         temp = []
         for c in deck:
-            for j in range(types):
+            for j in range(values):
                 temp += [(c + [j])]
         deck = temp
 
     shuffle(deck)
-    for i in range(features*types): deal_card()
+    for i in range(features*values): deal_card()
 
 
 def deal_cards(n, pos = len(board)):
+    i = 0
     for i in range(n):
-        if (deal_card(pos)): return -1
-    return 0
+        if (deal_card(pos) == -1): break
+    if (i == 0): return -1
+    else: return i+1
 
 def deal_card(pos = len(board)):
     if (len(deck) <= 0): return -1
@@ -75,7 +85,7 @@ def replace_set(set):
         deal_card(i)
 
 
-#Currently works for 3 types per feature
+#Currently works for 3 values per feature
 def find_sets(b = []):
     if (len(b) == 0): b = board
     sets = []
@@ -86,13 +96,13 @@ def find_sets(b = []):
                 c1 = b[i]
                 c2 = b[j]
                 c3 = b[k]
-                s = [(c1[f] + c2[f] + c3[f]) % types
+                s = [(c1[f] + c2[f] + c3[f]) % values
                      for f in range(features)]
                 if (sum(s) == 0): sets += [[i, j, k]]
 
     return sets
 
-#Currently works for 3 types per feature
+#Currently works for 3 values per feature
 def find_ultra():
     sets = []
 
@@ -106,13 +116,13 @@ def find_ultra():
                     c4 = board[l]
 
                     #Python % makes the resulting sign nonnegative
-                    s12 = [(c1[f] + c2[f] - c3[f] - c4[f]) % types
+                    s12 = [(c1[f] + c2[f] - c3[f] - c4[f]) % values
                            for f in range(features)]
                     if (sum(s12) == 0): sets += [[i, j, k, l]]
-                    s13 = [(c1[f] + c3[f] - c2[f] - c4[f]) % types
+                    s13 = [(c1[f] + c3[f] - c2[f] - c4[f]) % values
                            for f in range(features)]
                     if (sum(s13) == 0): sets += [[i, j, k, l]]
-                    s14 = [(c1[f] + c4[f] - c2[f] - c3[f]) % types
+                    s14 = [(c1[f] + c4[f] - c2[f] - c3[f]) % values
                            for f in range(features)]
                     if (sum(s14) == 0): sets += [[i, j, k, l]]
 
