@@ -28,13 +28,29 @@ if __name__ == "__main__":
     i = 0
     while True:
         i += 1
-        if i % 100 == 0: print("Starting game", i)
+        if i % 1000 == 0: print("Starting game", i)
 
         [num_sets, sets, board] = play_game(random)
-        if num_sets <= 21:
+        if num_sets == 21:
             print("Sets:")
             for set in sets:
                 print(set)
             print("\nBoard:")
             print(board)
+
+            game = open("game.txt", 'w')
+            game.write("Sets:\n")
+            for set in sets:
+                for card in set:
+                    game.write(str(card))
+                    game.write("  ")
+                game.write("\n")
+
+            game.write("\nBoard:\n")
+            for i in range(len(board)):
+                game.write(str(board[i]))
+                game.write("\n") if i % 3 == 2 else game.write("  ")
+
+            game.close()
+
             break
