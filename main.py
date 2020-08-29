@@ -33,7 +33,7 @@ if MAIN and __name__ == "__main__":
 
 
 
-if not MAIN and _name__ == "__main__":
+if not MAIN and __name__ == "__main__":
     i = 0
     while True:
         i += 1
